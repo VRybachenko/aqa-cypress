@@ -1,5 +1,3 @@
-
-
 describe('Registration validation tests', () => {
     const fillRegistrationForm = (
         name = 'Tony',
@@ -11,8 +9,8 @@ describe('Registration validation tests', () => {
         cy.get('#signupName').type(name)
         cy.get('#signupLastName').type(lastName)
         cy.get('#signupEmail').type(email)
-        cy.get('#signupPassword').type(password)
-        cy.get('#signupRepeatPassword').type(repeatPassword)
+        cy.get('#signupPassword').type(password, { sensitive: true })
+        cy.get('#signupRepeatPassword').type(repeatPassword, { sensitive: true })
     }
 
     beforeEach(() => {
@@ -149,6 +147,34 @@ describe('Registration validation tests', () => {
 
         //Step 3: Verify Garage page is displayed
         cy.contains('Garage').should('be.visible')
+    })
+
+    it('Test #8 - should login via custom command after user registration', () => {
+        const email = `Tony+${Date.now()}@starkindustries.com`
+        const password = 'Password1'
+
+        //Step 1: Fill registration form with valid data
+        fillRegistrationForm('Tony', 'Stark', email, password, password)
+
+        //Step 2: Click Register button
+        cy.contains('button', 'Register')
+            .should('not.be.disabled')
+            .click()
+
+        //Step 3: Verify user is logged in after registration
+        cy.contains('Garage').should('be.visible')
+
+        //Step 4: Open user menu
+        cy.get('#userNavDropdown').click()
+
+        //Step 5: Click Logout button
+        cy.contains('button', 'Logout').click()
+
+        //Step 6: Verify user is logged out
+        cy.contains('button', 'Sign In').should('be.visible')
+
+        //Step 7: Login via custom command
+        cy.login(email, password)
     })
 })
 
