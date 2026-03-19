@@ -10,7 +10,8 @@
     "types": ["cypress", "node"]
   },
   "include": [
-    "cypress/**/*.js",
-    "cypress/**/*.d.ts"
+    "../**/*.js",
+    "../**/*.ts",
+    "../**/*.d.ts"
   ]
 }

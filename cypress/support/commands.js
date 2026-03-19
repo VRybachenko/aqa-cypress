@@ -24,7 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add( /** @type {any} */'login', (email, password) => {
+Cypress.Commands.add('login', (email, password) => {
     //Step 1: Open Sign In modal
     cy.contains('button', 'Sign In').click()
 
@@ -42,10 +42,8 @@ Cypress.Commands.add( /** @type {any} */'login', (email, password) => {
 })
 
 Cypress.Commands.overwrite('type', (originalFn, element, text, options = {}) => {
-    const opts = /** @type {{ sensitive?: boolean, log?: boolean }} */ (options)
-
-    if (opts.sensitive) {
-        opts.log = false
+    if (options.sensitive) {
+        options.log = false
 
         Cypress.log({
             $el: element,
@@ -53,6 +51,5 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options = {}) => 
             message: '*'.repeat(String(text).length),
         })
     }
-
-    return originalFn(element, text, opts)
+    return originalFn(element, text, options)
 })
