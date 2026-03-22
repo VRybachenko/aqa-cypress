@@ -25,20 +25,35 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('login', (email, password) => {
-    //Step 1: Open Sign In modal
-    cy.contains('button', 'Sign In').click()
+    cy.get('body').then(($body) => {
+        if ($body.find('button:contains("Sign In")').length === 0) return
 
-    //Step 2: Enter email
-    cy.get('#signinEmail').type(email)
+        //Step 1: Open Sign In modal
+        cy.contains('button', 'Sign In').click()
 
-    //Step 3: Enter password
-    cy.get('#signinPassword').type(password, { sensitive: true })
+        //Step 2: Enter email
+        cy.get('#signinEmail').type(email)
 
-    //Step 4: Click Login button
-    cy.contains('button', 'Login').click()
+        //Step 3: Enter password
+        cy.get('#signinPassword').type(password, { sensitive: true })
 
-    //Step 5: Verify successful login
-    cy.contains('Garage').should('be.visible')
+        //Step 4: Click Login button
+        cy.contains('button', 'Login').click()
+
+        //Step 5: Verify successful login
+        cy.contains('Garage').should('be.visible')
+    })
+})
+
+Cypress.Commands.overwrite('visit', (originalFn, url, options = {}) => {
+    const basicAuthUsername = Cypress.env('httpBasicAuthUsername')
+    const basicAuthPassword = Cypress.env('httpBasicAuthPassword')
+
+    if (basicAuthUsername && basicAuthPassword) {
+        options.auth = { username: basicAuthUsername, password: basicAuthPassword }
+    }
+
+    return originalFn(url, options)
 })
 
 Cypress.Commands.overwrite('type', (originalFn, element, text, options = {}) => {
