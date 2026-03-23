@@ -142,3 +142,5 @@ node_modules/
 .idea/
 cypress/videos/
 cypress/screenshots/
+allure-results/
+allure-report/
