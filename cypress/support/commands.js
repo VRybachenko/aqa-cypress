@@ -45,6 +45,61 @@ Cypress.Commands.add('login', (email, password) => {
     })
 })
 
+Cypress.Commands.add('loginByAPI', () => {
+    const { username, password, httpBasicAuthUsername, httpBasicAuthPassword } = Cypress.env()
+
+    cy.request({
+        method: 'POST',
+        url: '/api/auth/signin',
+        auth: { username: httpBasicAuthUsername, password: httpBasicAuthPassword },
+        body: { email: username, password: password, remember: false },
+    }).then(({ headers }) => {
+        const cookieParams = headers['set-cookie'][0].split('; ')
+        const name = cookieParams[0].split('=')[0]
+        const value = cookieParams[0].split('=')[1]
+        const domain = cookieParams[1].split('=')[1]
+        const expiry = Math.floor(new Date(cookieParams[3].split('=')[1]).getTime() / 1000)
+        cy.setCookie(name, value, { domain, path: '/', expiry })
+    })
+})
+
+Cypress.Commands.add('deleteAllCars', () => {
+    const { httpBasicAuthUsername, httpBasicAuthPassword } = Cypress.env()
+
+    cy.request({
+        method: 'GET',
+        url: '/api/cars',
+        auth: { username: httpBasicAuthUsername, password: httpBasicAuthPassword },
+    }).then(({ body }) => {
+        body.data.forEach(({ id }) => {
+            cy.request({
+                method: 'DELETE',
+                url: `/api/cars/${id}`,
+                auth: { username: httpBasicAuthUsername, password: httpBasicAuthPassword },
+            })
+        })
+    })
+})
+
+Cypress.Commands.add('createExpense', (carId, expense) => {
+    return cy.request({
+        method: 'POST',
+        url: '/api/expenses',
+        auth: {
+            username: Cypress.env('httpBasicAuthUsername'),
+            password: Cypress.env('httpBasicAuthPassword'),
+        },
+        body: {
+            carId,
+            reportedAt: expense.reportedAt,
+            mileage: expense.mileage,
+            liters: expense.liters,
+            totalCost: expense.totalCost,
+            forceMileage: false,
+        },
+    })
+})
+
 Cypress.Commands.overwrite('visit', (originalFn, url, options = {}) => {
     const basicAuthUsername = Cypress.env('httpBasicAuthUsername')
     const basicAuthPassword = Cypress.env('httpBasicAuthPassword')
