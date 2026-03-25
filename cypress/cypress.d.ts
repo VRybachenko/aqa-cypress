@@ -7,6 +7,9 @@ declare global {
 
         interface Chainable {
             login(email: string, password: string): Chainable
+            loginByAPI(): Chainable<void>
+            deleteAllCars(): Chainable
+            createExpense(carId: number, expense: { reportedAt: string, mileage: number, liters: number, totalCost: number }): Chainable<Cypress.Response<unknown>>
         }
     }
 }

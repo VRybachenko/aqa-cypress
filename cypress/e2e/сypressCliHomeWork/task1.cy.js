@@ -4,7 +4,10 @@ import expensesPage from '../../pages/ExpensesPage'
 //********************TESTS*******************//
 
 describe('Garage', () => {
-    beforeEach(login)
+    beforeEach(() => {
+        login()
+        cy.deleteAllCars()
+    })
 
     //Test №1
     it('Should add a car to the garage', () => {
@@ -22,6 +25,7 @@ describe('Garage', () => {
 describe('Fuel Expenses', () => {
     before(() => {
         login()
+        cy.deleteAllCars()
         garagePage.open()
         garagePage.addCar(CAR.brand, CAR.model, CAR.mileage)
     })
