@@ -97,3 +97,25 @@ npm run cy:report:allure
 # Run with Mochawesome reporting
 npm run cy:report:mochawesome
 ```
+
+---
+
+## Running a Single Test File
+
+### Allure report
+
+```bash
+# Run specific spec and generate Allure report
+rimraf allure-results allure-report && cypress run --browser chrome --spec "cypress/e2e/apiTestingHomeWork/task1.cy.js"
+npm run allure:generate && npm run allure:open
+```
+
+### Mochawesome report
+
+```bash
+# Run specific spec and generate Mochawesome report
+rimraf mochawesome-report && cypress run --browser chrome --spec "cypress/e2e/apiTestingHomeWork/task1.cy.js" --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=false,html=false,json=true
+npm run mocha:merge && npm run mocha:generate
+```
+
+Replace `cypress/e2e/apiTestingHomeWork/task1.cy.js` with the path to the desired spec file.
