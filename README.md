@@ -1,5 +1,7 @@
 # Cypress Test Automation Project
 
+[![Allure Report](https://img.shields.io/badge/Allure-Report-orange)](https://vrybachenko.github.io/aqa-cypress/)
+
 E2E test automation project built with Cypress, covering UI and API testing of a QAuto web application.
 
 ---
