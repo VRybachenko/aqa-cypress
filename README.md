@@ -143,10 +143,16 @@ Replace `cypress/e2e/apiTestingHomeWork/task1.cy.js` with the path to the desire
 
 ## CI/CD
 
-Tests run automatically on GitHub Actions on every push to `main` or `github-actions` branches and on pull requests to `main`.
+Tests run automatically on GitHub Actions:
+- Every push to `main` or `github-actions` branches
+- Every pull request to `main`
+- Every day at 07:00 UTC (scheduled)
 
 Tests execute inside a Docker container using the image:
 `cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1`
+
+After each run, Allure report is automatically published to GitHub Pages with trend history:
+[https://vrybachenko.github.io/aqa-cypress/](https://vrybachenko.github.io/aqa-cypress/)
 
 ### Required GitHub Secrets
 
