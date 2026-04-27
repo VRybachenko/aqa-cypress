@@ -57,6 +57,19 @@ jobs:
           name: allure-results
           path: allure-results/
 
+      - name: Get allure history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Copy history to allure results
+        if: always()
+        continue-on-error: true
+        run: cp -r gh-pages/history allure-results/history
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
