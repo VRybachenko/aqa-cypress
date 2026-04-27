@@ -6,10 +6,10 @@ module.exports = defineConfig({
     ...baseConfig,
     baseUrl: 'https://qauto.forstudy.space',
     env: {
-      username: 'Tony1893@starkindustries.com',
-      password: 'Tony1893@!',
-      httpBasicAuthUsername: 'guest',
-      httpBasicAuthPassword: 'welcome2qauto',
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      httpBasicAuthUsername: process.env.HTTP_BASIC_AUTH_USERNAME,
+      httpBasicAuthPassword: process.env.HTTP_BASIC_AUTH_PASSWORD,
     },
   },
 });

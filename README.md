@@ -11,6 +11,8 @@ E2E test automation project built with Cypress, covering UI and API testing of a
 | Cypress 15 | Test framework |
 | Allure | Test reporting |
 | Mochawesome | HTML reports |
+| GitHub Actions | CI/CD pipeline |
+| Docker | Test execution environment |
 
 ---
 
@@ -82,6 +84,21 @@ API interception and direct API request tests:
 
 ---
 
+## Local Setup
+
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+```
+3. Create `.env` file from the example:
+```bash
+cp .env.example .env
+```
+4. Fill in the credentials in `.env`
+
+---
+
 ## Running Tests
 
 ```bash
@@ -119,3 +136,23 @@ npm run mocha:merge && npm run mocha:generate
 ```
 
 Replace `cypress/e2e/apiTestingHomeWork/task1.cy.js` with the path to the desired spec file.
+
+---
+
+## CI/CD
+
+Tests run automatically on GitHub Actions on every push to `main` or `github-actions` branches and on pull requests to `main`.
+
+Tests execute inside a Docker container using the image:
+`cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1`
+
+### Required GitHub Secrets
+
+Add the following secrets in **Settings → Secrets and variables → Actions**:
+
+| Secret                     | Description             |
+|----------------------------|-------------------------|
+| `USERNAME`                 | QAuto account email     |
+| `PASSWORD`                 | QAuto account password  |
+| `HTTP_BASIC_AUTH_USERNAME` | Basic auth username     |
+| `HTTP_BASIC_AUTH_PASSWORD` | Basic auth password     |

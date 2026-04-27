@@ -25,3 +25,8 @@ jobs:
 
       - name: Run Cypress tests
         run: npm run cy:run
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          HTTP_BASIC_AUTH_USERNAME: ${{ secrets.HTTP_BASIC_AUTH_USERNAME }}
+          HTTP_BASIC_AUTH_PASSWORD: ${{ secrets.HTTP_BASIC_AUTH_PASSWORD }}
